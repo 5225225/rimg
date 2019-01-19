@@ -36,10 +36,10 @@ impl Loader for Farbfeld {
             })
         }
 
-        Image { 
-            width: width as usize,
-            height: height as usize,
-            pixels: pixels }
+        Image::new(
+            width as usize,
+            height as usize,
+            pixels)
     }
 }
 
@@ -55,10 +55,10 @@ impl Saver for Farbfeld {
 
         buf.write(b"farbfeld").unwrap();
 
-        buf.write_u32::<BE>(img.width as u32).unwrap();
-        buf.write_u32::<BE>(img.height as u32).unwrap();
+        buf.write_u32::<BE>(img.width() as u32).unwrap();
+        buf.write_u32::<BE>(img.height() as u32).unwrap();
 
-        for pixel in &img.pixels {
+        for pixel in img.pixels() {
             buf.write_u16::<BE>(to_u16(pixel.r)).unwrap();
             buf.write_u16::<BE>(to_u16(pixel.g)).unwrap();
             buf.write_u16::<BE>(to_u16(pixel.b)).unwrap();

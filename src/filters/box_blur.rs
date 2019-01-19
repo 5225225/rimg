@@ -8,10 +8,10 @@ pub struct BoxBlur {
 
 impl Filter for BoxBlur {
     fn filter(&self, img: &mut Image) {
-        for row in 0..img.height {
+        for row in 0..img.height() {
             blur_row(img, row, self.width);
         }
-        for col in 0..img.width {
+        for col in 0..img.width() {
             blur_col(img, col, self.height);
         }
     }
@@ -28,7 +28,7 @@ fn blur_row(img: &mut Image, row: usize, width: usize) {
         amount += 1;
     }
 
-    for col in 0..img.width {
+    for col in 0..img.width() {
         if let Some(head) = img.get(col+width, row) {
             acc += *head;
             amount += 1;
@@ -43,7 +43,7 @@ fn blur_row(img: &mut Image, row: usize, width: usize) {
         scratch.push(acc / amount as f64);
     }
 
-    for col in 0..img.width {
+    for col in 0..img.width() {
         *img.get_mut(col, row).unwrap() = scratch[col]
     }
 }
@@ -59,7 +59,7 @@ fn blur_col(img: &mut Image, col: usize, height: usize) {
         amount += 1;
     }
 
-    for row in 0..img.height {
+    for row in 0..img.height() {
         if let Some(head) = img.get(col, row+height) {
             acc += *head;
             amount += 1;
@@ -74,7 +74,7 @@ fn blur_col(img: &mut Image, col: usize, height: usize) {
         scratch.push(acc / amount as f64);
     }
 
-    for row in 0..img.height {
+    for row in 0..img.height() {
         *img.get_mut(col, row).unwrap() = scratch[row]
     }
 }
