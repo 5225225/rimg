@@ -40,11 +40,11 @@ fn blur_row(img: &mut Image, row: usize, width: usize) {
             amount -= 1;
         }
 
-        scratch.push(acc / amount as f64);
+        scratch.push(acc / f64::from(amount));
     }
 
-    for col in 0..img.width() {
-        *img.get_mut(col, row).unwrap() = scratch[col]
+    for (col, item) in scratch.iter().enumerate() {
+        *img.get_mut(col, row).unwrap() = *item;
     }
 }
 
@@ -71,10 +71,10 @@ fn blur_col(img: &mut Image, col: usize, height: usize) {
             amount -= 1;
         }
 
-        scratch.push(acc / amount as f64);
+        scratch.push(acc / f64::from(amount));
     }
 
-    for row in 0..img.height() {
-        *img.get_mut(col, row).unwrap() = scratch[row]
+    for (row, item) in scratch.iter().enumerate().take(img.height()) {
+        *img.get_mut(col, row).unwrap() = *item;
     }
 }

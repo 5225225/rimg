@@ -1,6 +1,7 @@
 use crate::Image;
 use crate::Pixel;
 use std::io::{Cursor, Read};
+use std::convert::TryFrom;
 use std::io::Write;
 use crate::formats::{Loader, Saver};
 
@@ -22,16 +23,16 @@ impl Loader for Farbfeld {
 
         let mut pixels = Vec::new();
 
-        for _ in 0..(width * height) as u64 {
+        for _ in 0..u64::from(width * height) {
             let r = rdr.read_u16::<BE>().unwrap();
             let g = rdr.read_u16::<BE>().unwrap();
             let b = rdr.read_u16::<BE>().unwrap();
             let a = rdr.read_u16::<BE>().unwrap();
             pixels.push(Pixel {
-                r: r as f64 / (1 << 16) as f64,
-                g: g as f64 / (1 << 16) as f64,
-                b: b as f64 / (1 << 16) as f64,
-                a: a as f64 / (1 << 16) as f64,
+                r: f64::from(r) / f64::from(1 << 16),
+                g: f64::from(g) / f64::from(1 << 16),
+                b: f64::from(b) / f64::from(1 << 16),
+                a: f64::from(a) / f64::from(1 << 16),
             })
         }
 
@@ -42,8 +43,10 @@ impl Loader for Farbfeld {
     }
 }
 
+// There's not a lot we can do here if our values are out of bounds
+#[allow(clippy::cast_possible_truncation)]
 fn to_u16(value: f64) -> u16 {
-    let shifted = value * (1<<16) as f64;
+    let shifted = value * f64::from(1<<16);
 
     (shifted as i64).max(0).min(0xffff) as u16
 }
@@ -52,10 +55,10 @@ impl Saver for Farbfeld {
     fn save(img: &Image) -> Vec<u8> {
         let mut buf = Vec::new();
 
-        buf.write(b"farbfeld").unwrap();
+        buf.write_all(b"farbfeld").unwrap();
 
-        buf.write_u32::<BE>(img.width() as u32).unwrap();
-        buf.write_u32::<BE>(img.height() as u32).unwrap();
+        buf.write_u32::<BE>(u32::try_from(img.width()).unwrap()).unwrap();
+        buf.write_u32::<BE>(u32::try_from(img.height()).unwrap()).unwrap();
 
         for pixel in img.pixels() {
             buf.write_u16::<BE>(to_u16(pixel.r)).unwrap();

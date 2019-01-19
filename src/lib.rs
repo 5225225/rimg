@@ -1,5 +1,7 @@
 #![feature(try_from)]
-#![warn(clippy::all)]
+#![deny(clippy::all)]
+#![deny(clippy::cast_possible_truncation)]
+
 
 #[macro_use]
 extern crate derive_more;

@@ -44,7 +44,7 @@ impl Image {
 
     pub fn get(&self, x: usize, y: usize) -> Option<&Pixel> {
         let pos = y * self.width + x;
-        if self.bounds_check(x, y) == false {
+        if !self.bounds_check(x, y) {
             return None;
         }
         self.pixels.get(pos)
@@ -52,7 +52,7 @@ impl Image {
 
     pub fn get_mut(&mut self, x: usize, y: usize) -> Option<&mut Pixel> {
         let pos = y * self.width + x;
-        if self.bounds_check(x, y) == false {
+        if !self.bounds_check(x, y) {
             return None;
         }
         self.pixels.get_mut(pos)
