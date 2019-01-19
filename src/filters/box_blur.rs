@@ -34,7 +34,7 @@ fn blur_row(img: &mut Image, row: usize, width: usize) {
             amount += 1;
         }
 
-        if (col >= width) {
+        if col >= width {
             let tail = img.get(col-width, row).unwrap();
             acc -= *tail;
             amount -= 1;
@@ -65,7 +65,7 @@ fn blur_col(img: &mut Image, col: usize, height: usize) {
             amount += 1;
         }
 
-        if (row >= height) {
+        if row >= height {
             let tail = img.get(col, row-height).unwrap();
             acc -= *tail;
             amount -= 1;

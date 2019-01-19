@@ -1,9 +1,8 @@
 #![feature(try_from)]
+#![warn(clippy::all)]
 
 #[macro_use]
 extern crate derive_more;
-
-use std::ops::{Index, Deref, DerefMut, IndexMut, Div};
 
 use crate::pixel::Pixel;
 use crate::image::Image;

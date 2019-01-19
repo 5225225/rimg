@@ -3,7 +3,6 @@ use crate::Pixel;
 use std::io::{Cursor, Read};
 use std::io::Write;
 use crate::formats::{Loader, Saver};
-use std::convert::TryInto;
 
 use byteorder::{ReadBytesExt, WriteBytesExt, BE};
 

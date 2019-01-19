@@ -1,5 +1,3 @@
-#![feature(try_from)]
-
 #[derive(Debug, Constructor)]
 pub struct Image {
     width: usize,
@@ -7,7 +5,7 @@ pub struct Image {
     pixels: Vec<Pixel>,
 }
 
-use std::ops::{Index, Deref, DerefMut, IndexMut, Div};
+use std::ops::{Index, Deref, DerefMut, IndexMut};
 
 use crate::pixel::Pixel;
 

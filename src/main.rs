@@ -1,6 +1,6 @@
 use std::fs::File;
 use rimg::formats::{Loader, Saver, farbfeld};
-use rimg::filters::{Filter, invert, box_blur, repeated};
+use rimg::filters::{Filter, box_blur, repeated};
 use std::io::{Read, Write};
 
 fn main() {
@@ -21,5 +21,5 @@ fn main() {
 
     let mut out_f = File::create("image2.ff").unwrap();
     let out_buf = farbfeld::Farbfeld::save(&img);
-    out_f.write_all(&out_buf);
+    out_f.write_all(&out_buf).unwrap();
 }
