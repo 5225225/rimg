@@ -1,7 +1,7 @@
 use crate::Image;
 
-pub mod invert;
 pub mod box_blur;
+pub mod invert;
 pub mod repeated;
 
 pub trait Filter {

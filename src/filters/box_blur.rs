@@ -1,5 +1,5 @@
-use crate::{Image, Pixel};
 use crate::filters::Filter;
+use crate::{Image, Pixel};
 
 pub struct BoxBlur {
     pub width: usize,
@@ -24,18 +24,20 @@ fn blur_row(img: &mut Image, row: usize, width: usize) {
     let mut scratch = Vec::new();
 
     for col in 0..width {
-        acc += *img.get(col, row).expect("width must be less than image width");
+        acc += *img
+            .get(col, row)
+            .expect("width must be less than image width");
         amount += 1;
     }
 
     for col in 0..img.width() {
-        if let Some(head) = img.get(col+width, row) {
+        if let Some(head) = img.get(col + width, row) {
             acc += *head;
             amount += 1;
         }
 
         if col >= width {
-            let tail = img.get(col-width, row).unwrap();
+            let tail = img.get(col - width, row).unwrap();
             acc -= *tail;
             amount -= 1;
         }
@@ -55,18 +57,20 @@ fn blur_col(img: &mut Image, col: usize, height: usize) {
     let mut scratch = Vec::new();
 
     for row in 0..height {
-        acc += *img.get(col, row).expect("height must be less than image height");
+        acc += *img
+            .get(col, row)
+            .expect("height must be less than image height");
         amount += 1;
     }
 
     for row in 0..img.height() {
-        if let Some(head) = img.get(col, row+height) {
+        if let Some(head) = img.get(col, row + height) {
             acc += *head;
             amount += 1;
         }
 
         if row >= height {
-            let tail = img.get(col, row-height).unwrap();
+            let tail = img.get(col, row - height).unwrap();
             acc -= *tail;
             amount -= 1;
         }

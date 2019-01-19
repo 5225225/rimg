@@ -1,6 +1,6 @@
+use rimg::filters::{box_blur, repeated, Filter};
+use rimg::formats::{farbfeld, Loader, Saver};
 use std::fs::File;
-use rimg::formats::{Loader, Saver, farbfeld};
-use rimg::filters::{Filter, box_blur, repeated};
 use std::io::{Read, Write};
 
 fn main() {

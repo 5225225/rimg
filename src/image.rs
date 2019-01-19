@@ -5,7 +5,7 @@ pub struct Image {
     pixels: Vec<Pixel>,
 }
 
-use std::ops::{Index, Deref, DerefMut, IndexMut};
+use std::ops::{Deref, DerefMut, Index, IndexMut};
 
 use crate::pixel::Pixel;
 

@@ -1,5 +1,5 @@
-use crate::Image;
 use crate::filters::Filter;
+use crate::Image;
 
 pub struct Invert;
 

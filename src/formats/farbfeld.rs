@@ -1,9 +1,9 @@
+use crate::formats::{Loader, Saver};
 use crate::Image;
 use crate::Pixel;
-use std::io::{Cursor, Read};
 use std::convert::TryFrom;
 use std::io::Write;
-use crate::formats::{Loader, Saver};
+use std::io::{Cursor, Read};
 
 use byteorder::{ReadBytesExt, WriteBytesExt, BE};
 
@@ -13,7 +13,8 @@ impl Loader for Farbfeld {
     fn load(bytes: &[u8]) -> Image {
         let mut rdr = Cursor::new(bytes);
         let mut signature: [u8; 8] = [0; 8];
-        rdr.read_exact(&mut signature).expect("signature read failed");
+        rdr.read_exact(&mut signature)
+            .expect("signature read failed");
         if &signature != b"farbfeld" {
             panic!("Signature did not match");
         }
@@ -36,10 +37,7 @@ impl Loader for Farbfeld {
             })
         }
 
-        Image::new(
-            width as usize,
-            height as usize,
-            pixels)
+        Image::new(width as usize, height as usize, pixels)
     }
 }
 
@@ -47,7 +45,7 @@ impl Loader for Farbfeld {
 #[allow(clippy::cast_possible_truncation)]
 #[allow(clippy::cast_sign_loss)]
 fn to_u16(value: f64) -> u16 {
-    let shifted = value * f64::from(1<<16);
+    let shifted = value * f64::from(1 << 16);
 
     (shifted as i64).max(0).min(0xffff) as u16
 }
@@ -58,8 +56,10 @@ impl Saver for Farbfeld {
 
         buf.write_all(b"farbfeld").expect("write failed");
 
-        buf.write_u32::<BE>(u32::try_from(img.width()).expect("image width out of bounds")).expect("write failed");
-        buf.write_u32::<BE>(u32::try_from(img.height()).expect("image height out of bounds")).expect("write failed");
+        buf.write_u32::<BE>(u32::try_from(img.width()).expect("image width out of bounds"))
+            .expect("write failed");
+        buf.write_u32::<BE>(u32::try_from(img.height()).expect("image height out of bounds"))
+            .expect("write failed");
 
         for pixel in img.pixels() {
             buf.write_u16::<BE>(to_u16(pixel.r)).expect("write failed");
@@ -69,6 +69,5 @@ impl Saver for Farbfeld {
         }
 
         buf
-    
     }
 }

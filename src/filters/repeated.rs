@@ -1,5 +1,5 @@
-use crate::{Image};
-use crate::filters::{Filter};
+use crate::filters::Filter;
+use crate::Image;
 
 pub struct Repeated<T: Filter> {
     pub iterations: u64,
