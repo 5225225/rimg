@@ -5,16 +5,13 @@ extern crate derive_more;
 
 use std::ops::{Index, Deref, DerefMut, IndexMut, Div};
 
+use crate::pixel::Pixel;
+use crate::image::Image;
+
 pub mod filters;
 pub mod formats;
-
-#[derive(Debug)]
-pub struct Image {
-    width: usize,
-    height: usize,
-    pixels: Vec<Pixel>,
-}
-
+pub mod pixel;
+pub mod image;
 
 impl Index<(usize, usize)> for Image {
     type Output = Pixel;
@@ -78,12 +75,4 @@ impl DerefMut for Image {
     fn deref_mut(&mut self) -> &mut [Pixel] {
         &mut self.pixels
     }
-}
-
-#[derive(Default, Copy, Clone, Debug, Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign)]
-pub struct Pixel {
-    r: f64,
-    g: f64,
-    b: f64,
-    a: f64,
 }

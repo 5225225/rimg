@@ -1,16 +1,18 @@
 use crate::{Image, Pixel};
-use crate::filters::FilterParams;
+use crate::filters::Filter;
 
-pub struct BoxBlur;
+pub struct BoxBlur {
+    pub width: usize,
+    pub height: usize,
+}
 
-impl FilterParams for BoxBlur {
-    type Params = (usize, usize);
-    fn filter_with(&self, img: &mut Image, params: (usize, usize)) {
+impl Filter for BoxBlur {
+    fn filter(&self, img: &mut Image) {
         for row in 0..img.height {
-            blur_row(img, row, params.0);
+            blur_row(img, row, self.width);
         }
         for col in 0..img.width {
-            blur_col(img, col, params.1);
+            blur_col(img, col, self.height);
         }
     }
 }
